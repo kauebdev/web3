@@ -13,6 +13,7 @@
         @yield('content')
     </main>
     @include('partials.footer')
+    @include('partials.alerts')
 </body>
 
 </html>
