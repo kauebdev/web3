@@ -1,0 +1,10 @@
+@extends('layouts.app')
+@section('title', 'Novo Produto')
+@section('content')
+    <h2 class="mb-3">Novo Produto</h2>
+    
+    <form action="{{ route('produtos.store') }}" method="POST"> {{-- Linha corrigida --}}
+        @csrf
+        @include('produtos._form')
+    </form>
+@endsection

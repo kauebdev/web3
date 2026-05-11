@@ -1,12 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    HomeController,
+    SobreController,
+    ContatoController,
+    CategoriaController,
+    ProdutoController
+};
 
-use App\Http\Controllers\HomeController;
+// Rotas Institucionais
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-use App\Http\Controllers\SobreController;
 Route::get('/sobre', [SobreController::class, 'index'])->name('sobre');
-
-use App\Http\Controllers\ContatoController;
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato');
+
+// Rota de Categorias (Cria automaticamente index, create, store, show, edit, update e destroy)
+Route::resource('categorias', CategoriaController::class);
+
+Route::resource('produtos', ProdutoController::class);

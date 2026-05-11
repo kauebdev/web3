@@ -10,9 +10,10 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a href="#cardapio">Cardápio</a></li>
                 <li class="nav-item"><a href="#pedidos">Pedidos</a></li>
-                <li class="nav-item"><a href="#contato">Contato</a></li>
                 <li class="nav-item"><a href="{{ route('sobre') }}">Sobre</a></li>
                 <li class="nav-item"><a href="{{ route('contato') }}">Contato</a></li>
+                <li class="nav-item"><a href="{{ route('categorias.index') }}">Categorias</a></li>
+                <li class="nav-item"><a href="{{ route('produtos.index') }}">Produtos</a></li>
             </ul>
         </div>
     </div>

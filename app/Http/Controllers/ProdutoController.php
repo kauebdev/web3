@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Produto;
+use App\Http\Requests\ProdutoRequest;
+
+
+class ProdutoController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $produtos = Produto::orderBy('nome')->get();
+        return view('produtos.index', compact('produtos'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('produtos.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(ProdutoRequest $request)
+    {
+        $dados = $request->validated();
+        $dados['ativa'] = $request->boolean('ativa');
+
+        Produto::create($dados);
+
+        return redirect()->route('produtos.index')
+            ->with('sucesso', 'Produto criado com sucesso!');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Produto $produto)
+    {
+        return view('produtos.edit', compact('produto'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(ProdutoRequest $request, Produto $produto)
+    {
+        $dados = $request->validated();
+        $dados['ativa'] = $request->boolean('ativa');
+
+        $produto->update($dados);
+
+        return redirect()->route('produtos.index')
+            ->with('sucesso', 'Produto atualizado com sucesso!');
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Produto $produto)
+    {
+        $produto->delete();
+
+        return redirect()->route('produtos.index')
+            ->with('sucesso', 'Produto excluído com sucesso!');
+    }
+}

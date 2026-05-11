@@ -1,9 +1,21 @@
 {{-- resources/views/partials/alerts.blade.php --}}
-<footer class="py-4 mt-5 border-top">
-    <div class="container text-center text-muted">
-        <b>Sucesso!</b>
+
+@if (session('sucesso'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('sucesso') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
     </div>
-        <div class="container text-center text-muted">
-        <b>Erro!</b>
+@endif
+
+@if (session('erro'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('erro') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
     </div>
-</footer>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-warning" role="alert">
+        <strong>Atenção:</strong> verifique os campos do formulário.
+    </div>
+@endif
