@@ -1,6 +1,16 @@
 @php
     $isEdit = isset($produto);
 @endphp
+
+<div class="mb-3">
+    <label for="imagem" class="form-label">Foto do Produto</label>
+    <input type="file" class="form-control @error('imagem') is-invalid @enderror"
+           id="imagem" name="imagem" accept="image/*">
+    @error('imagem')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 <div class="mb-3">
     <label for="nome" class="form-label">Nome</label>
     <input type="text" class="form-control @error('nome') is-invalid @enderror"

@@ -3,8 +3,17 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Produtos</h2>
+
+
+        <form method="GET" action="{{ route('produtos.index') }}" class="d-flex gap-2">
+            <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Buscar por nome...">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            <a class="btn btn-outline-secondary" href="{{ route('produtos.index') }}">Limpar</a>
+        </form>
+
         <a href="{{ route('produtos.create') }}" class="btn btn-primary">Novo Produto</a>
     </div>
+
     <div class="card">
         <div class="card-body p-0">
             <table class="table table-striped table-hover mb-0">
@@ -22,6 +31,14 @@
                 <tbody>
                     @forelse ($produtos as $produto)
                         <tr>
+                            <td>
+                                @if($produto->imagem)
+                                    <img src="{{ Storage::url($produto->imagem) }}" alt="{{ $produto->nome }}"
+                                        style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                @else
+                                    <span class="text-muted">Sem foto</span>
+                                @endif
+                            </td>
                             <td>{{ $produto->nome }}</td>
                             <td>{{ $produto->categoria->nome }}</td>
                             <td>{{ $produto->descricao }}</td>
@@ -54,6 +71,9 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="mt-3">
+            {{ $produtos->links() }}
         </div>
     </div>
 @endsection

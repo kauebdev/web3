@@ -36,7 +36,12 @@ class ProdutoRequest extends FormRequest
             ],
             'descricao' => 'nullable|string|max:500',
             'preco' => 'required|numeric|min:0',
-            'ativa' => 'nullable|boolean',
+
+            'categoria_id' => 'required|exists:categorias,id',
+
+            'ativo' => 'nullable|boolean',
+
+            'imagem' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }
 
@@ -49,6 +54,12 @@ class ProdutoRequest extends FormRequest
             'descricao.max' => 'A descrição deve ter no máximo :max caracteres.',
             'preco.required' => 'Informe o preço do produto.',
             'preco.min' => 'O preço deve ser um valor positivo.',
+            'categoria_id.required' => 'Informe a categoria do produto.',
+            'categoria_id.exists' => 'A categoria selecionada é inválida.',
+            'ativo.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',
+            'imagem.image' => 'O arquivo deve ser uma imagem.',
+            'imagem.mimes' => 'A imagem deve ser do tipo: jpg, jpeg, png ou webp.',
+            'imagem.max' => 'A imagem deve ter no máximo :max kilobytes.',
         ];
     }
 }

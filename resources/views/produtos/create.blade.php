@@ -3,7 +3,7 @@
 @section('content')
     <h2 class="mb-3">Novo Produto</h2>
     
-    <form action="{{ route('produtos.store') }}" method="POST"> {{-- Linha corrigida --}}
+    <form action="{{ route('produtos.store') }}" method="POST" enctype="multipart/form-data"> 
         @csrf
         @include('produtos._form')
     </form>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\Categoria;
 use App\Http\Requests\ProdutoRequest;
 
 
@@ -13,8 +14,24 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::orderBy('nome')->get();
-        return view('produtos.index', compact('produtos'));
+        $q = request('q');
+        $categoriaId = request('categoria_id');
+
+        $produtos = Produto::query()
+            ->with('categoria')
+            ->when($q, function ($query) use ($q) {
+                $query->where('nome', 'like', "%{$q}%");
+            })
+            ->when($categoriaId, function ($query) use ($categoriaId) {
+                $query->where('categoria_id', $categoriaId);
+            })
+            ->orderBy('nome')
+            ->paginate(10)
+            ->withQueryString();
+
+        $categorias = Categoria::orderBy('nome')->get();
+
+        return view('produtos.index', compact('produtos', 'categorias'));
     }
 
     /**
@@ -22,7 +39,9 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        return view('produtos.create');
+        $categorias = Categoria::all();
+
+        return view('produtos.create', compact('categorias'));
     }
 
     /**
@@ -32,6 +51,10 @@ class ProdutoController extends Controller
     {
         $dados = $request->validated();
         $dados['ativa'] = $request->boolean('ativa');
+
+        if ($request->hasFile('imagem')) {
+            $dados['imagem'] = $request->file('imagem')->store('produtos', 'public');
+        }
 
         Produto::create($dados);
 
@@ -44,7 +67,8 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        return view('produtos.edit', compact('produto'));
+        $categorias = Categoria::all();
+        return view('produtos.edit', compact('produto', 'categorias'));
     }
 
     /**
@@ -54,6 +78,10 @@ class ProdutoController extends Controller
     {
         $dados = $request->validated();
         $dados['ativa'] = $request->boolean('ativa');
+
+        if ($request->hasFile('imagem')) {
+            $dados['imagem'] = $request->file('imagem')->store('produtos', 'public');
+        }
 
         $produto->update($dados);
 
