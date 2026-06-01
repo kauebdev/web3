@@ -25,7 +25,7 @@ class ProdutoController extends Controller
             ->when($categoriaId, function ($query) use ($categoriaId) {
                 $query->where('categoria_id', $categoriaId);
             })
-            ->orderBy('nome')
+            ->orderBy('preco', 'asc')
             ->paginate(10)
             ->withQueryString();
 

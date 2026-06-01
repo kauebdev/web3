@@ -18,3 +18,5 @@ Route::get('/contato', [ContatoController::class, 'index'])->name('contato');
 Route::resource('categorias', CategoriaController::class);
 
 Route::resource('produtos', ProdutoController::class);
+
+?>

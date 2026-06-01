@@ -5,11 +5,24 @@
         <h2>Produtos</h2>
 
 
-        <form method="GET" action="{{ route('produtos.index') }}" class="d-flex gap-2">
+        <form method="GET" action="{{ route('produtos.index') }}" class="d-flex gap-2 align-items-center">
+
             <input type="text" name="q" value="{{ request('q') }}" class="form-control" placeholder="Buscar por nome...">
-            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+
+            <select name="categoria_id" class="form-select">
+                <option value="">Todas as categorias</option>
+                @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria->id }}" {{ request('categoria_id') == $categoria->id ? 'selected' : '' }}>
+                        {{ $categoria->nome }}
+                    </option>
+                @endforeach
+            </select>
+
+            <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
             <a class="btn btn-outline-secondary" href="{{ route('produtos.index') }}">Limpar</a>
+
         </form>
+
 
         <a href="{{ route('produtos.create') }}" class="btn btn-primary">Novo Produto</a>
     </div>
@@ -19,6 +32,7 @@
             <table class="table table-striped table-hover mb-0">
                 <thead class="table-light">
                     <tr>
+                        <th>Foto</th>
                         <th>Nome</th>
                         <th>Categoria</th>
                         <th>Descrição</th>
@@ -56,17 +70,17 @@
                             <td class="text-end">
                                 <a href="{{ route('produtos.edit', $produto->id) }}"
                                     class="btn btn-sm btn-outline-primary">Editar</a>
-                                <form action="{{ route('produtos.destroy', $produto->id) }}" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                                <form method="POST" action="{{ route('categorias.destroy', $categoria) }}" class="d-inline"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center p-4 text-muted">Nenhum produto cadastrado.</td>
+                            <td colspan="8" class="text-center p-4 text-muted">Nenhum produto cadastrado.</td>
                         </tr>
                     @endforelse
                 </tbody>
