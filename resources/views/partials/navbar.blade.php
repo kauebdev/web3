@@ -17,6 +17,19 @@
         <div class="collapse navbar-collapse" id="navbarConteudo">
             <ul class="navbar-nav ms-auto gap-1">
 
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login.form') }}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Entrar
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register.form') }}">
+                            <i class="bi bi-person-plus me-1"></i>Cadastrar
+                        </a>
+                    </li>
+                @endguest
+
                 <li class="nav-item">
                     <a class="nav-link" href="#cardapio">
                         <i class="bi bi-journal-text me-1"></i>Cardápio
@@ -46,18 +59,36 @@
                     <span class="text-secondary">|</span>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('categorias.index') }}">
-                        <i class="bi bi-tags me-1"></i>Categorias
-                    </a>
-                </li>
+                @auth
+                    <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
 
-                <li class="nav-item">
-                    <a class="nav-link "
-                        href="{{ route('produtos.index') }}">
-                        <i class="bi bi-grid me-1"></i>Produtos
+                    @if (auth()->user()->role === 'gerente')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('categorias.index') }}">
+                                <i class="bi bi-tags me-1"></i>Categorias
+                            </a>
+                        </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ route('produtos.index') }}">
+                            <i class="bi bi-grid me-1"></i>Produtos
+                        </a>
+                    </li>
+                    <li class="nav-item">{{ auth()->user()->name }} ({{ auth()->user()->role }})</li>
+                    <li class="nav-item">
+                        <a href="">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button class="btn btn-link nav-link p-0" type="submit">Sair</button>
+                        </form>
                     </a>
-                </li>
+                    </li>
+                @endauth
+
+
+
+
 
             </ul>
         </div>
